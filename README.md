@@ -1,6 +1,6 @@
 # Let's Build an AI-Driven Search on Our Website
 
-[Presented by Frank Berger at TYPO3 Developer Days 2025.](https://code711.de/talks/embeddings-the-lesser-known-hero-of-ai)
+[Presented by Frank Berger at TYPO3 Developer Days 2025.](https://code711.de/talks/lets-build-an-ai-driven-search-on-our-website)
 
 
 ## Embeddings

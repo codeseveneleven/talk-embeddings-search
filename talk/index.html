@@ -19,7 +19,7 @@
 			<div class="slides">
 				<section>
 					<h1>Let's Build an AI-Driven Search on Our Website</h1>
-					<h2>with embeddings and redis</h2>
+					<h2>with embeddings and Redis</h2>
 					<h4>TYPO3 Developer Days 2025</h4>
 					<h4>Frank Berger</h4>
 				</section>
@@ -148,10 +148,10 @@ $normalizeMe,array_keys($distances)[0]);
 				</section>
 
 				<section>
-					<h2>Embeddings in REDIS</h2>
-					<pre><code class="hljs sh"  data-trim>docker run --name my-redis-container \
--p 6378:6379 -v `pwd`/dockerredisdata:/data \
--d redis/redis-stack-server:latest</code></pre>
+					<h2>Embeddings in Redis</h2>
+					<pre><code class="hljs sh"  data-trim>docker run --name my-Redis-container \
+-p 6378:6379 -v `pwd`/dockerRedisdata:/data \
+-d Redis/Redis-stack-server:latest</code></pre>
 					<ul>
 						<li>Defining our JSON structure</li>
 						<li>Creating an Index in Redis</li>
@@ -191,10 +191,10 @@ SCHEMA
 
 				<section>
 					<h2>Creating an Index in Redis</h2>
-					<h4>in PHP Using predis/predis</h4>
+					<h4>in PHP Using pRedis/pRedis</h4>
 
 					<pre><code class="hljs php" data-line-numbers="1-20|1|2-7|8-12|14-18" data-trim>
-$client = new Predis\Client([ 'port'=>6378 ]);
+$client = new PRedis\Client([ 'port'=>6378 ]);
 $fields = [
 	new NumericField('$.uid', "uid"),
 	new NumericField('$.pid', "pid"),
@@ -234,7 +234,7 @@ $set = [
 	'text' => $text,
 	'embedding'=>getEmbedding($text)
 ];
-$client = new Predis\Client(['port'=>6378]);
+$client = new PRedis\Client(['port'=>6378]);
 $client->jsonset( $key, '$', json_encode($set) );
 					</code></pre>
 				</section>
@@ -244,8 +244,8 @@ $client->jsonset( $key, '$', json_encode($set) );
 					<h2>Searching Data using the Index</h2>
 					<pre><code class="hljs php" data-line-numbers="|1|3|5|6|7-8|9|10-13|15-19|16|17|18|20" data-trim>
 $searchEmbedding = getEmbedding( $searchTerm );
-$client = new Predis\Client([ 'port' => 6378 ]);
-$searchArguments = new \Predis\Command\Argument\Search\SearchArguments();
+$client = new PRedis\Client([ 'port' => 6378 ]);
+$searchArguments = new \PRedis\Command\Argument\Search\SearchArguments();
 $searchArguments
     ->dialect( 2 ) // must be 2 for vector
     ->sortBy('__vector_score') // closest neighbour by definition
@@ -268,7 +268,7 @@ $rawResult = $client->ftsearch(
 				<section>
 					<section>
 					<h2>Searching Data using the Index</h2>
-						<p>normalizing the REDIS-result</p>
+						<p>normalizing the Redis-result</p>
 						<p>The RAW Result:</p>
 					<pre><code class="hljs php" data-line-numbers data-trim>
 Array (
@@ -295,7 +295,7 @@ Array (
 					</section>
 					<section>
 						<h2>Searching Data using the Index</h2>
-						<p>normalizing the REDIS-result</p>
+						<p>normalizing the Redis-result</p>
 						<pre><code class="hljs php" data-line-numbers="|2,3|4|5|7-12|15" data-trim>
 function normalizeRedisResult(array $result):array {
 	$count = array_shift($result);
@@ -317,7 +317,7 @@ function normalizeRedisResult(array $result):array {
 					</section>
 					<section>
 						<h2>Searching Data using the Index</h2>
-						<p>normalizing the REDIS-result</p>
+						<p>normalizing the Redis-result</p>
 						<pre><code class="hljs php" data-line-numbers data-trim>
 Array
 (
