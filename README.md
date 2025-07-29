@@ -10,6 +10,8 @@ Essentially, embeddings are points in a multi-dimensional space, represented as 
 ## Tools used
 Our examples depend heavily on OpenAI's embedding models. In particular, the 'text-embedding-ada-002' model with its 1536 dimensions normalized to unit length (ranging from 0 and 1) serves our purpose well.
 
+> The examples expect an OpenAI key in the environment variable OPENAIKEY
+
 Redis with JSON and Vector Sets plugins enabled
 
 Feel free to explore the code examples and learn more about embeddings.
@@ -22,8 +24,7 @@ running redis-stack-server in docker:
 docker run --name my-redis-container -p 6378:6379 -v `pwd`/dockerredisdata:/data  -d redis/redis-stack-server:latest
 ```
 
-The examples expect an OpenAI key in the environment variable OPENAIKEY
-
+I chose the port 6378 because developers often have already a redis server running on the default port.
 
 > ## ATTENTION
 >
