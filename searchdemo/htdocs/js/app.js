@@ -20,16 +20,12 @@ document.querySelector('form').addEventListener('submit',(ev)=>{
       document.getElementById('searchresult').innerHTML = '';
       let data = JSON.parse(raw);
       data.forEach((elem) => {
-
          let result = template.content.cloneNode(true);
          result.querySelector('div').innerHTML = elem.text;
          result.querySelector('a').href=elem.slug;
          document.getElementById('searchresult').append(result);
-
       });
-
    });
-
 
 });
 
