@@ -41,3 +41,5 @@ This contains the website shown in the demo of the talk. It has a separate compo
 > ## ATTENTION
 >
 > none of these tools and scripts are production-ready!!! There is no boundary checking, no maintenance. This is a proof-of-concept and a boilerplate at best!
+
+A more production ready implementation of a redmine search tool can be found at [https://github.com:sudhaus7/redmine-embedding-search](https://github.com:sudhaus7/redmine-embedding-search)
