@@ -25,9 +25,9 @@ docker run --name my-redis-container -p 6378:6379 -v `pwd`/dockerredisdata:/data
 The examples expect an OpenAI key in the environment variable OPENAIKEY
 
 
-## ATTENTION
-
-none of these tools and scripts are production-ready!!! There is no boundary checking, no maintenance. This is a proof-of-concept and a boilerplate at best!
+> ## ATTENTION
+>
+>none of these tools and scripts are production-ready!!! There is no boundary checking, no maintenance. This is a proof-of-concept and a boilerplate at best!
 
 ## searchdemo subtree
 
@@ -37,6 +37,6 @@ This contains the website shown in the demo of the talk. It has a separate compo
 - redis-load-news-from-database.php - same as the script before, but for tx_news records: `DBUSER=db DBPASS=db php redis-load-news-from-database.php myt3db  http://mybaseurl.de/detail`
 - redis-chat.php - a cli chat tool for accessing the redis-index. Usage: `php redis-chat.php` **Check the script before executing and adapt it to your setup and needs!! It makes assumptions about your setup!!**
 
-## ATTENTION
-
-none of these tools and scripts are production-ready!!! There is no boundary checking, no maintenance. This is a proof-of-concept and a boilerplate at best!
+> ## ATTENTION
+>
+> none of these tools and scripts are production-ready!!! There is no boundary checking, no maintenance. This is a proof-of-concept and a boilerplate at best!
