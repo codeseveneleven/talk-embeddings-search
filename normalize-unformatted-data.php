@@ -16,7 +16,7 @@ $dictionary  = $embedding->generateDictionary([
 ]);
 
 $distances = $embedding->calculateDistances(
-	$embedding->calculateEmbedding( $normalizeMe ),
+	$embedding->getEmbedding( $normalizeMe ),
 	$dictionary
 );
 

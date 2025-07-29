@@ -6,9 +6,9 @@ require 'vendor/autoload.php';
 
 $test = new Embedding();
 
-$queen = $test->calculateEmbedding( 'queen');
-$woman = $test->calculateEmbedding('woman');
-$monarch = $test->calculateEmbedding('monarch');
+$queen = $test->getEmbedding( 'queen');
+$woman = $test->getEmbedding('woman');
+$monarch = $test->getEmbedding('monarch');
 $summ = $test->vectoradd( $monarch, $woman);
 $distance = $test->distance( $queen,$summ);
 printf("\n\n\nDistance between Monarch + Woman and Queen %s\n\n\n",$distance);

@@ -13,7 +13,7 @@ class AbstractOpenAi {
 	public const MODELS = ['text-embedding-ada-002','text-embedding-3-small'];
 
 
-	public string $model =  'text-embedding-ada-002';
+	public string $model =  'text-embedding-3-small';
 
 	protected string $openaikey;
 	protected AbstractAdapter $cache;
@@ -29,20 +29,6 @@ class AbstractOpenAi {
 
 	public function getCache(): AbstractAdapter {
 		return $this->cache;
-	}
-
-	public function getEmbedding(string $text):array
-	{
-		$key = sha1($this->getModel() . $text);
-		return $this->cache->get($key,function(ItemInterface $item) use ($text): array {
-			$client = OpenAI::client($this->openaikey);
-			$result = $client->embeddings()->create([
-				"encoding_format"=> "float",
-				'model'=>$this->getModel(),
-				'input'=>$text,
-			]);
-			return $result->toArray()['data'][0]['embedding'];
-		});
 	}
 
 	public function askGPT (string $prompt, string $systemprompt = 'You are a helpfull assistant', string $model='gpt-4o-mini'):string
@@ -66,20 +52,6 @@ class AbstractOpenAi {
 
 	}
 
-
-	function distance($a,$b):float
-	{
-		return 1 - ($this->dotp($a,$b) / sqrt($this->dotp($a,$a) * $this->dotp($b,$b)));
-	}
-
-	function dotp($a,$b):float
-	{
-		$products = array_map(function($a, $b) {
-			return $a * $b;
-		}, $a, $b);
-		return (float)array_sum($products);
-	}
-
 	function vectorsubstract($a1,$a2):array
 	{
 		return array_map( function ( $x, $y ) {
@@ -94,7 +66,6 @@ class AbstractOpenAi {
 		}, $a, $b);
 	}
 
-
 	public function generateDictionary(array $list) {
 		$d = [];
 		foreach ($list as $item) {
@@ -103,21 +74,18 @@ class AbstractOpenAi {
 		return $d;
 	}
 
-	public function calculateDistances($d1, $dictionary):array
+	public function getEmbedding(string $text): array
 	{
-		$result = [];
-		foreach ($dictionary as $item=>$d2) {
-			$result[$item] = $this->distance( $d1, $d2);
-		}
-		asort($result);
-		return $result;
-	}
-
-	public function getNearestNeighbour($d1, $dictionary)
-	{
-		$distances = $this->calculateDistances( $d1, $dictionary);
-		$topkey = array_keys($distances)[0];
-		return [$topkey, $distances[$topkey]];
+		$key = sha1($this->getModel() . $text);
+		return $this->cache->get($key,function(ItemInterface $item) use ($text): array {
+			$client = OpenAI::client($this->openaikey);
+			$result = $client->embeddings()->create([
+				"encoding_format"=> "float",
+				'model'=>$this->getModel(),
+				'input'=>$text,
+			]);
+			return $result->toArray()['data'][0]['embedding'];
+		});
 	}
 
 	public function getModel(): string
@@ -130,6 +98,36 @@ class AbstractOpenAi {
 		if ( in_array( $model, self::MODELS)) {
 			$this->model = $model;
 		}
+	}
+
+	public function getNearestNeighbour($d1, $dictionary)
+	{
+		$distances = $this->calculateDistances( $d1, $dictionary);
+		$topkey = array_keys($distances)[0];
+		return [$topkey, $distances[$topkey]];
+	}
+
+	public function calculateDistances($d1, $dictionary):array
+	{
+		$result = [];
+		foreach ($dictionary as $item=>$d2) {
+			$result[$item] = $this->distance( $d1, $d2);
+		}
+		asort($result);
+		return $result;
+	}
+
+	function distance($a,$b):float
+	{
+		return 1 - ($this->dotp($a,$b) / sqrt($this->dotp($a,$a) * $this->dotp($b,$b)));
+	}
+
+	function dotp($a,$b):float
+	{
+		$products = array_map(function($a, $b) {
+			return $a * $b;
+		}, $a, $b);
+		return (float)array_sum($products);
 	}
 
 	public function normalizeRedisResult(array $result):array
@@ -152,7 +150,6 @@ class AbstractOpenAi {
             	$key            = null;
 			}
 		}
-
 		return $return;
 	}
 
