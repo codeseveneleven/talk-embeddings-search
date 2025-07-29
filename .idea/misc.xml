@@ -25,9 +25,4 @@
     <resource url="http://typo3.org/ns/TYPO3/Twitter/Bootstrap/ViewHelpers" location="$USER_HOME$/Schemas/NEOSSchemas/Bootstrap.xsd" />
     <resource url="http://typo3.org/ns/TYPO3/Media/ViewHelpers" location="$USER_HOME$/Schemas/NEOSSchemas/Media.xsd" />
   </component>
-  <component name="VcsManagerConfiguration">
-    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
-  </component>
 </project>

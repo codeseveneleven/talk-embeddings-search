@@ -87,3 +87,4 @@ fabric.properties
 .env
 .cache
 /talk/node_modules/
+composer.lock
