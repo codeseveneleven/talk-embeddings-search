@@ -194,7 +194,7 @@ SCHEMA
 					<h4>in PHP Using pRedis/pRedis</h4>
 
 					<pre><code class="hljs php" data-line-numbers="1-20|1|2-7|8-12|14-18" data-trim>
-$client = new PRedis\Client([ 'port'=>6378 ]);
+$client = new Predis\Client([ 'port'=>6378 ]);
 $fields = [
 	new NumericField('$.uid', "uid"),
 	new NumericField('$.pid', "pid"),
@@ -234,7 +234,7 @@ $set = [
 	'text' => $text,
 	'embedding'=>getEmbedding($text)
 ];
-$client = new PRedis\Client(['port'=>6378]);
+$client = new Predis\Client(['port'=>6378]);
 $client->jsonset( $key, '$', json_encode($set) );
 					</code></pre>
 				</section>
@@ -244,8 +244,8 @@ $client->jsonset( $key, '$', json_encode($set) );
 					<h2>Searching Data using the Index</h2>
 					<pre><code class="hljs php" data-line-numbers="|1|3|5|6|7-8|9|10-13|15-19|16|17|18|20" data-trim>
 $searchEmbedding = getEmbedding( $searchTerm );
-$client = new PRedis\Client([ 'port' => 6378 ]);
-$searchArguments = new \PRedis\Command\Argument\Search\SearchArguments();
+$client = new Predis\Client([ 'port' => 6378 ]);
+$searchArguments = new \Predis\Command\Argument\Search\SearchArguments();
 $searchArguments
     ->dialect( 2 ) // must be 2 for vector
     ->sortBy('__vector_score') // closest neighbour by definition
