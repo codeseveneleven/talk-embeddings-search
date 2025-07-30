@@ -138,6 +138,11 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   max-height: 95%;
 }
 
+.reveal img.qr {
+  width: auto;
+  height: 30vh;
+}
+
 .reveal strong,
 .reveal b {
   font-weight: bold;
