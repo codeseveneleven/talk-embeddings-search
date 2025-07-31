@@ -367,6 +367,24 @@ $result = $client->embeddings()->create([
 	</code></pre>
 				</section>
 
+				<section>
+					<h2>Connecting to a self-hosted model</h2>
+					<p>In this example via ollama and the command</p>
+					<pre>ollama run snowflake-arctic-embed2:latest</pre>
+					<pre><code class="hljs php" data-line-numbers="|2-5|7|8" data-trim>
+// $client = OpenAI::client(getenv('OPENAIKEY'));
+$client = \OpenAI::factory()
+	->withHttpHeader('OpenAI-Beta', 'assistants=v2');
+	->withBaseUri('http://localhost:11434/v1')
+	->make();
+$result = $client->embeddings()->create([
+	'model'=>'snowflake-arctic-embed2',
+	'dimensions'=>1024
+	'input'=>$text,
+	'encoding_format'=> 'float',
+]);
+	</code></pre>
+				</section>
 
 				<section>
 					<h2>Usecases</h2>
@@ -374,6 +392,15 @@ $result = $client->embeddings()->create([
 						<li>Product Search by similarity</li>
 						<li>Better Searches for API provided data (Redmine for example)</li>
 						<li>Faster quicksearches</li>
+						<li>Categorization/Normalisation of unstructured content</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Caveats</h2>
+					<ul>
+						<li>You have to stick to a model and dimension</li>
+						<li>You might need to re-index sometimes</li>
 					</ul>
 				</section>
 
