@@ -33,6 +33,7 @@ class AbstractOpenAi {
 
 	public function getEmbedding(string $text):array
 	{
+		/* */
 		$key = sha1($this->getModel() . $text);
 		return $this->cache->get($key,function(ItemInterface $item) use ($text): array {
 			$client = OpenAI::client($this->openaikey);
@@ -43,6 +44,21 @@ class AbstractOpenAi {
 			]);
 			return $result->toArray()['data'][0]['embedding'];
 		});
+		// */
+		/* *
+		$client = \OpenAI::factory()
+		                 //->withHttpHeader('OpenAI-Beta', 'assistants=v2')
+					->withBaseUri('http://localhost:11434/v1')
+					->make();
+		$result = $client->embeddings()->create([
+			'model'=>'snowflake-arctic-embed2',
+			'dimensions'=>1024,
+			'input'=>$text,
+			'encoding_format'=> 'float',
+		]);
+
+		return $result->toArray()['data'][0]['embedding'];
+		// */
 	}
 
 	public function askGPT (string $prompt, string $systemprompt = 'You are a helpfull assistant', string $model='gpt-4o-mini'):string
