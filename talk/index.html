@@ -100,25 +100,26 @@
 	-0.008801127,0.0020712635,0.014136199,-0.005460604,
 	0.003598559,-0.005296716,-0.010230786,0.0072319875,
 	... ,-0.011262931]</code></pre>
-					<p>encoded in 1536 dimensions, capturing meaning, context and relations</p>
+					<p>encoded in 768 dimensions, capturing meaning, context and relations</p>
 				</section>
 
 				<section>
 					<h2>How do I get an embedding in PHP?</h2>
 					<p>composer req openai-php/client</p>
-					<pre><code class="hljs php" data-line-numbers data-trim>
-function getEmbedding(string $text): array
-{
-	$client = OpenAI::client(getenv('OPENAIKEY'));
-	$result = $client->embeddings()->create([
-		'model'=>'text-embedding-ada-002',
-		'input'=>$text,
-		'encoding_format'=> 'float',
-	]);
-	return $result->toArray()['data'][0]['embedding'];
-}
+					<p>ollama run nomic-embed-text:latest</p>
+					<pre><code class="hljs php" data-line-numbers="|1-3|5,6|10" data-trim>
+$client = OpenAI::factory()
+	->withBaseUri('http://localhost:11434/v1')
+	->make();
+$result = $client->embeddings()->create([
+	'model'=>'nomic-embed-text',
+	'dimensions'=>768,
+	'input'=>$text,
+	'encoding_format'=> 'float',
+]);
+return $result->toArray()['data'][0]['embedding'];
 					</code></pre>
-					<p class="fragment">Tip: cache the resulting embedding</p>
+					<p class="fragment">Other good embeding engine: snowflake-arctic-embed2</p>
 				</section>
 
 				<section>
@@ -347,26 +348,6 @@ Array
 						<p>Embeddings: OpenAI text-embedding-3-small</p>
 					</div>
 				</section>
-
-				<section>
-					<h2>Connecting to a self-hosted model</h2>
-					<p>In this example via ollama and the command</p>
-					<pre>ollama run snowflake-arctic-embed2:latest</pre>
-					<pre><code class="hljs php" data-line-numbers="|2-5|7|8" data-trim>
-// $client = OpenAI::client(getenv('OPENAIKEY'));
-$client = \OpenAI::factory()
-	->withHttpHeader('OpenAI-Beta', 'assistants=v2')
-	->withBaseUri('http://localhost:11434/v1')
-	->make();
-$result = $client->embeddings()->create([
-	'model'=>'snowflake-arctic-embed2',
-	'dimensions'=>1024
-	'input'=>$text,
-	'encoding_format'=> 'float',
-]);
-	</code></pre>
-				</section>
-
 
 				<section>
 					<h2>Usecases</h2>
